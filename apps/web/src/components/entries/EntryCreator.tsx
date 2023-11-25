@@ -1,5 +1,7 @@
 import { Mood } from '@/components/entries/Mood.jsx';
 import { hooks } from '@/store.js';
+import { Button } from '@a-type/ui/components/button';
+import { H2 } from '@a-type/ui/components/typography';
 import { EntryMood, getTodayKey } from '@mood-tracker/verdant';
 
 export interface EntryCreatorProps {}
@@ -24,46 +26,61 @@ export function EntryCreator({}: EntryCreatorProps) {
   const currentMood = todayEntry?.get('mood');
 
   return (
-    <div>
-      <h2>How are you feeling today?</h2>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <button
-          style={{
-            background: currentMood === 'worst' ? 'lightblue' : 'white',
-          }}
-          onClick={() => onMoodChange('worst')}
-        >
-          <Mood value="worst" />
-        </button>
-        <button
-          style={{
-            background: currentMood === 'worse' ? 'lightblue' : 'white',
-          }}
-          onClick={() => onMoodChange('worse')}
-        >
-          <Mood value="worse" />
-        </button>
-        <button
-          style={{ background: currentMood === 'same' ? 'lightblue' : 'white' }}
-          onClick={() => onMoodChange('same')}
-        >
-          <Mood value="same" />
-        </button>
-        <button
-          style={{
-            background: currentMood === 'better' ? 'lightblue' : 'white',
-          }}
-          onClick={() => onMoodChange('better')}
-        >
-          <Mood value="better" />
-        </button>
-        <button
-          style={{ background: currentMood === 'best' ? 'lightblue' : 'white' }}
-          onClick={() => onMoodChange('best')}
-        >
-          <Mood value="best" />
-        </button>
+    <div className="w-full flex flex-col">
+      <H2>How are you feeling today?</H2>
+      <div className="flex flex-row justify-between">
+        <EntryButton
+          value="worst"
+          currentMood={currentMood}
+          onClick={onMoodChange}
+        />
+        <EntryButton
+          value="worse"
+          currentMood={currentMood}
+          onClick={onMoodChange}
+        />
+        <EntryButton
+          value="same"
+          currentMood={currentMood}
+          onClick={onMoodChange}
+        />
+        <EntryButton
+          value="better"
+          currentMood={currentMood}
+          onClick={onMoodChange}
+        />
+        <EntryButton
+          value="best"
+          currentMood={currentMood}
+          onClick={onMoodChange}
+        />
       </div>
     </div>
+  );
+}
+
+export interface EntryButtonProps {
+  value: EntryMood;
+  currentMood?: EntryMood;
+  onClick: (value: EntryMood) => void;
+}
+
+export function EntryButton({
+  value,
+  currentMood,
+  onClick,
+  ...rest
+}: EntryButtonProps) {
+  return (
+    <Button
+      size="icon"
+      color={currentMood === value ? 'primary' : 'ghost'}
+      toggled={currentMood === value}
+      onClick={() => onClick(value)}
+      className="text-lg"
+      {...rest}
+    >
+      <Mood value={value} />
+    </Button>
   );
 }

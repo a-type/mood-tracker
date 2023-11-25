@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from './HomePage.jsx';
-import { lazy } from 'react';
+import { PageRoot } from '@a-type/ui/components/layouts';
 
 const router = createBrowserRouter([
   {
@@ -10,5 +10,9 @@ const router = createBrowserRouter([
 ]);
 
 export function Pages() {
-  return <RouterProvider router={router} />;
+  return (
+    <PageRoot>
+      <RouterProvider router={router} />
+    </PageRoot>
+  );
 }
